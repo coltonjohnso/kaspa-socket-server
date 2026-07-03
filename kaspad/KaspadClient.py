@@ -18,7 +18,7 @@ class KaspadClient(object):
         try:
             info = await self.request("getInfoRequest")
             self.server_version = info["getInfoResponse"]["serverVersion"]
-            self.is_utxo_indexed = info["getInfoResponse"]["isUtxoIndexed"]
+            self.is_utxo_indexed = info["getInfoResponse"].get("isUtxoIndexed", False)
             self.is_synced = info["getInfoResponse"]["isSynced"]
             self.p2p_id = info["getInfoResponse"]["p2pId"]
             return info

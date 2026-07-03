@@ -18,6 +18,7 @@ async def config():
         emit_info = {
             'block_hash': block_info["verboseData"]["hash"],
             'difficulty': block_info["verboseData"]["difficulty"],
+            'daaScore': block_info["header"]["daaScore"],
             'blueScore': block_info["header"]["blueScore"],
             'timestamp': block_info["header"]["timestamp"],
             'txs': [{

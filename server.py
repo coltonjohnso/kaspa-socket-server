@@ -12,8 +12,8 @@ from starlette.responses import JSONResponse
 
 from kaspad.KaspadMultiClient import KaspadMultiClient
 
-sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=[])
-socket_app = socketio.ASGIApp(sio)
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
+socket_app = socketio.ASGIApp(sio, socketio_path="")
 
 app = FastAPI(
     title="Kaspa REST-API server",
@@ -60,9 +60,9 @@ async def ping_server():
         assert info["getInfoResponse"]["isSynced"] is True
 
         return {
-            "server_version": info["getInfoResponse"]["serverVersion"],
-            "is_utxo_indexed": info["getInfoResponse"]["isUtxoIndexed"],
-            "is_synced": info["getInfoResponse"]["isSynced"]
+            "serverVersion": info["getInfoResponse"]["serverVersion"],
+            "isUtxoIndexed": info["getInfoResponse"].get("isUtxoIndexed", False),
+            "isSynced": info["getInfoResponse"]["isSynced"]
         }
     except Exception as exc:
         raise HTTPException(status_code=500, detail="Kaspad not connected.")
